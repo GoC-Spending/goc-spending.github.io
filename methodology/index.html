@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <base href="/">
+  
   <title>Analyzing GoC Contract Spending</title>
 
   
@@ -54,7 +54,51 @@
 
 <h1 id="methodology-and-sources">Methodology and sources</h1>
 
-<p>This <a href="/about">volunteer-led project</a> began in 2017 as an effort to better understand federal government contract spending at a government-wide level. The page below describes the data sources and methodology used to produce the combined dataset as well as the aggregate trends displayed on the Analysis page.</p>
+<p>This <a href="/about/">volunteer-led project</a> began in 2017 as an effort to better understand federal government contract spending at a government-wide level. The page below describes the data sources and methodology used to produce the combined dataset as well as the aggregate trends displayed on the Analysis page.</p>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<nav id="TableOfContents">
+<ul>
+<li><a href="#methodology-and-sources">Methodology and sources</a>
+<ul>
+<li><a href="#table-of-contents">Table of contents</a></li>
+<li><a href="#data-sources">Data sources</a>
+<ul>
+<li><a href="#proactive-disclosure-websites">Proactive disclosure websites</a></li>
+<li><a href="#open-government-dataset">Open Government dataset</a></li>
+</ul></li>
+<li><a href="#limitations-and-assumptions">Limitations and assumptions</a>
+<ul>
+<li><a href="#limited-departmental-scope">Limited departmental scope</a></li>
+<li><a href="#limited-historical-data">Limited historical data</a></li>
+<li><a href="#inconsistent-date-formats">Inconsistent date formats</a></li>
+<li><a href="#linearized-year-to-year-effective-spending">Linearized year-to-year effective spending</a></li>
+</ul></li>
+<li><a href="#steps">Steps</a>
+<ul>
+<li><a href="#scraping-and-parsing-proactive-disclosure-html">Scraping and parsing proactive disclosure HTML</a></li>
+<li><a href="#importing-open-government-csv-data">Importing Open Government CSV data</a></li>
+<li><a href="#basic-error-detection">Basic error detection</a></li>
+<li><a href="#vendor-name-normalization">Vendor name normalization</a></li>
+<li><a href="#date-validation">Date validation</a></li>
+<li><a href="#duplicate-entries">Duplicate entries</a></li>
+<li><a href="#detecting-and-grouping-contract-amendments">Detecting and grouping contract amendments</a></li>
+<li><a href="#normalizing-by-year">Normalizing by year</a></li>
+<li><a href="#producing-aggregate-analysis-trends">Producing aggregate analysis trends</a></li>
+</ul></li>
+<li><a href="#future-improvements">Future improvements</a>
+<ul>
+<li><a href="#natural-language-processing-to-normalize-vendor-names">Natural language processing to normalize vendor names</a></li>
+<li><a href="#automatic-determination-of-vendor-industry">Automatic determination of vendor industry</a></li>
+<li><a href="#contract-by-contract-industry-categorization-using-object-codes-and-machine-learning">Contract-by-contract industry categorization, using object codes and machine learning</a></li>
+<li><a href="#improved-date-parsing-and-fiscal-year-not-calendar-year-aggregate-analysis">Improved date parsing and fiscal year (not calendar year) aggregate analysis</a></li>
+<li><a href="#better-programming-languages-for-data-analysis">Better programming languages for data analysis</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
 
 <h2 id="data-sources">Data sources</h2>
 
@@ -62,7 +106,15 @@
 
 <p>Data on federal government contract spending was sourced from each department’s <a href="https://www.canada.ca/en/treasury-board-secretariat/services/reporting-government-spending/proactive-disclosure-department-agency.html">Proactive Disclosure</a> websites.</p>
 
-<p>These websites listed contracts and amendments by the fiscal quarter in which the contract or amendment was initiated. Information for a given contract or amendment was displayed on an individual webpage. These webpages would typically list:</p>
+<p>These websites listed contracts and amendments by the fiscal quarter in which the contract or amendment was initiated. Information for a given contract or amendment was displayed on an individual webpage. Examples of Proactive Disclosure websites include:</p>
+
+<ul>
+<li><strong>Canadian Space Agency:</strong> <a href="https://web.archive.org/web/20190506065704/http://www.asc-csa.gc.ca/eng/publications/contracts.asp">Index page</a>, <a href="https://web.archive.org/web/20181201212217/http://www.asc-csa.gc.ca/eng/publications/contracts-details.asp?trimestre=51&amp;id=11270">sample contract entry</a></li>
+<li><strong>Health Canada:</strong> <a href="https://web.archive.org/web/20170823132856/http://www.contracts-contrats.hc-sc.gc.ca/cfob/mssid/contractdisc.nsf/webGetbyperiod?OpenView&amp;Count=1000&amp;ExpandAll&amp;lang=eng&amp;">Index page</a>, <a href="https://web.archive.org/web/20170824074700/http://www.contracts-contrats.hc-sc.gc.ca/cfob/mssid/contractdisc.nsf/WEBbypurpose/85669557737F4EC485257FA20050880D?OpenDocument&amp;lang=eng&amp;">sample contract entry</a></li>
+<li><strong>National Defence:</strong> <a href="https://web.archive.org/web/20190402220727/http://www.admfincs.forces.gc.ca/apps/dc/intro-eng.asp">Index page</a>, <a href="https://web.archive.org/web/20190519200914/http://www.admfincs.forces.gc.ca/apps/dc/contract-contrat-eng.asp?q=2&amp;y=2015&amp;id=id203276">sample contract entry</a></li>
+</ul>
+
+<p>These webpages would typically list:</p>
 
 <ul>
 <li>the name of the vendor</li>
@@ -91,7 +143,7 @@
 
 <p>At least <span class="variable">8</span> departments have taken their proactive disclosure websites offline since 2017 when this project began. For these departments, the <a href="https://github.com/GoC-Spending/goc-spending-data">scraped data collected for this project</a> is likely the only publicly-available source of this data.</p>
 
-<p>The Open Government dataset <a href="https://open.canada.ca/data/en/dataset/d8f85d91-7dec-4fd1-8055-483b77225d8b">can be downloaded here from open.canada.ca</a>. The point-in-time copy used for the aggregate trend analysis (from <span class="variable">2019-03-24</span>) is archived [here]. You can <a href="/download">download the combined dataset</a> to conduct further analyses on your own.</p>
+<p>The Open Government dataset <a href="https://open.canada.ca/data/en/dataset/d8f85d91-7dec-4fd1-8055-483b77225d8b">can be downloaded here from open.canada.ca</a>. The point-in-time copy used for the aggregate trend analysis (from <span class="variable">2019-03-24</span>) is archived [here]. You can <a href="/download/">download the combined dataset</a> to conduct further analyses on your own.</p>
 
 <h2 id="limitations-and-assumptions">Limitations and assumptions</h2>
 
@@ -103,9 +155,9 @@
 
 <h3 id="limited-historical-data">Limited historical data</h3>
 
-<p>The time range of historical data varied from one department to another. Proactive Disclosure websites went back as far as 2005 for some departments, or only as far back as 2012 for others. Data from the Open Government dataset typically only went back as far as 2015 or 2016 (with some notable exceptions, including CEAA, DND, ECCC, ESDC, GAC, PCH, PSC, and CRA which provided comprehensive historical data going back to 2004 within the Open Government dataset).</p>
+<p>The time range of historical data varied from one department to another. Proactive Disclosure websites went back as far as 2005 for some departments, or only as far back as 2012 for others. Data from the Open Government dataset typically only went back as far as 2015 or 2016 (with some notable exceptions, including <abbr title="Canadian Environmental Assessment Agency">CEAA</abbr>, <abbr title="National Defence">DND</abbr>, <abbr title="Environment and Climate Change Canada">ECCC</abbr>, <abbr title="Employment and Social Development Canada">ESDC</abbr>, <abbr title="Global Affairs Canada">GAC</abbr>, <abbr title="Canadian Heritage">PCH</abbr>, <abbr title="Public Service Commission">PSC</abbr>, and <abbr title="Canada Revenue Agency">CRA</abbr> which provided comprehensive historical data going back to 2004 within the Open Government dataset).</p>
 
-<p>One consequence of this is that year-by-year trends are likely to show an exaggerated increase in contract spending over time. The perceived increase would be caused in part by more complete data as the year gets closer to the present.</p>
+<p>One consequence of this is that <strong>year-by-year trends are likely to show an exaggerated increase in contract spending over time</strong>. The perceived increase would be caused in part by more complete data as the year gets closer to the present.</p>
 
 <p>Many of the largest departments (for example, PSPC and DND) include data as far back as at least 2007. As a result, we’ve used 2008 to 2017 (a ten-year time period) as the time range for any year-over-year trend analyses.</p>
 
@@ -133,7 +185,7 @@
 
 <p>Up to 2016, the Treasury Board Secretariat published <a href="https://www.canada.ca/en/treasury-board-secretariat/corporate/reports/contracting-data.html">Purchasing Activity Reports</a> that detailed government spending by calendar year.</p>
 
-<p>The <a href="https://www.canada.ca/en/treasury-board-secretariat/corporate/reports/contracting-data/2016-purchasing-activity-report.html">2016 Purchasing Activity Report</a> states a total of $18.2B in contract spending that year ($17B for contracts $25k and above, and $1.2B for contracts under $25k). This is comparable to %total2016ContractSpending% in total 2016 contract spending included in the combined dataset, which provides a useful gut-check.</p>
+<p>The <a href="https://www.canada.ca/en/treasury-board-secretariat/corporate/reports/contracting-data/2016-purchasing-activity-report.html">2016 Purchasing Activity Report</a> states a total of $18.2B in contract spending that year ($17B for contracts $25k and above, and $1.2B for contracts under $25k). This is comparable to <span class="variable">$16.6B</span> in <a href="https://github.com/GoC-Spending/goc-spending-analysis/blob/master/general/effective-overall-total-by-year-2008-to-2017.csv">total 2016 contract spending</a> included in the combined dataset, which provides a useful gut-check.</p>
 
 <h3 id="linearized-year-to-year-effective-spending">Linearized year-to-year effective spending</h3>
 
@@ -315,7 +367,7 @@
 <p>For the example above, the effective yearly values would be as follows:</p>
 
 <ul>
-<li>2005: #1. Yearly value: $2M ($10M over 2005-2009, 5 years).</li>
+<li>2005: #1. Yearly value: $2M ($10M, over 2005-2009 or 5 years).</li>
 <li>2006: #1. Yearly value: $2M.</li>
 <li>2007: #2. Yearly value: $1.2M ($10M minus the $4M cumulative - values above, over 2007-2011 or 5 years).</li>
 <li>2008: #2. Yearly value: $1.2M.</li>
@@ -336,7 +388,7 @@
 
 <p>With amendment entries grouped together and effective yearly values calculated, it’s possible to produce aggregate totals on a per-year basis across, for example, a given department, a given company, or the government as a whole.</p>
 
-<p>Given the <a href="#limited-historical-data">limited historical coverage</a> of the data, these per-year trends become less accurate further back in time. One consequence of this is that the total effective values (e.g. total contract spending on a government-wide level) appear to increase more significantly than they do in practice, because the coverage of the data improves over time (namely, including data from more departments). For the <a href="/analysis">aggregated statistics</a> included here, a time range from 2008 to 2017 was chosen.</p>
+<p>Given the <a href="#limited-historical-data">limited historical coverage</a> of the data, these per-year trends become less accurate further back in time. One consequence of this is that the total effective values (e.g. total contract spending on a government-wide level) appear to increase more significantly than they do in practice, because the coverage of the data improves over time (namely, including data from more departments). For the <a href="/analysis/">aggregated statistics</a> included here, a time range from 2008 to 2017 was chosen.</p>
 
 <p>To make it easier to produce aggregate statistics, two additional database tables were created and populated from the “source” table that contained the combined dataset:</p>
 
@@ -345,7 +397,7 @@
 <li>A second “by year” database table, that created separate rows for each of the effective years of the contracts and amendment groups in the “export” database table. This table made it easier to do per-year analyses of the data.</li>
 </ul>
 
-<p>You can <a href="/download">download these tables in CSV format</a>.</p>
+<p>You can <a href="/download/">download these tables in CSV format</a>.</p>
 
 <p>Aggregate statistics were produced using simple SQL queries on these database tables:</p>
 
@@ -356,25 +408,25 @@
 
 <p>Results from the “by year” table on the largest overall vendors were used to improve the <a href="#vendor-name-normalization">vendor normalization table</a>, over several iterations.</p>
 
-<p>A <a href="https://github.com/GoC-Spending/goc-spending-laravel/blob/master/app/AnalysisOps.php">class of analysis functions</a> was used to perform database queries and export the results as CSV files. The <a href="https://github.com/GoC-Spending/goc-spending-analysis">resulting analysis CSV files</a> are available on GitHub. These same queries are used to produce the charts on the <a href="/analysis">Analysis</a> page.</p>
+<p>A <a href="https://github.com/GoC-Spending/goc-spending-laravel/blob/master/app/AnalysisOps.php">class of analysis functions</a> was used to perform database queries and export the results as CSV files. The <a href="https://github.com/GoC-Spending/goc-spending-analysis">resulting analysis CSV files</a> are available on GitHub. These same queries are used to produce the charts on the <a href="/analysis/">Analysis</a> page.</p>
 
 <h2 id="future-improvements">Future improvements</h2>
 
 <h3 id="natural-language-processing-to-normalize-vendor-names">Natural language processing to normalize vendor names</h3>
 
-<p>The vendor normalization table was <a href="#vendor-name-normalization">created manually</a>, and based on the largest vendors in the dataset. There are <span class="variable">TBD</span> unique vendor name entries in the combined dataset, and only <span class="variable">3552</span> normalization entries included in the vendor normalization table. Natural language processing tools could be used to more effectively group together these entries, which would improve the aggregate statistics for the “long tail” of smaller vendors in particular.</p>
+<p>The vendor normalization table was <a href="#vendor-name-normalization">created manually</a>, and based on the largest vendors in the dataset. There are <span class="variable">146211</span> unique vendor name entries in the combined dataset (or <span class="variable">123029</span> cleaned entries), and only <span class="variable">3552</span> normalization entries included in the vendor normalization table. Natural language processing tools could be used to more effectively group together these entries, which would improve the aggregate statistics for the “long tail” of smaller vendors in particular.</p>
 
 <h3 id="automatic-determination-of-vendor-industry">Automatic determination of vendor industry</h3>
 
-<p>The by-industry aggregate statistics (to be completed) are currently determined manually. The primary or secondary industry of a given vendor is determined by the following table (to be completed), and only includes the largest vendors in these fields.</p>
+<p>At present, anyone interested in doing an industry-by-industry breakdown of contracts could be limited to manually grouping vendors by industry category.</p>
 
 <p>It would be useful to be able to automatically determine the industry or industries of a given vendor, from outside data sources (company registries, Wikipedia, etc.). This would allow for government-wide aggregate statistics by industry, rather than just highlights of the largest vendors in a given industry.</p>
 
 <h3 id="contract-by-contract-industry-categorization-using-object-codes-and-machine-learning">Contract-by-contract industry categorization, using object codes and machine learning</h3>
 
-<p>Aggregate statistics by industry (to be completed) are currently done at the company level, rather than at the contract level. Being able to consistently determine the industry or nature of the work on a per-contract level would improve these per-industry statistics significantly.</p>
+<p>Aggregate statistics by industry are currently much easier to complete at the company by company level, rather than contract by contract. Being able to consistently determine the industry or nature of the work on a per-contract level would improve these per-industry statistics significantly.</p>
 
-<p>Many of the largest vendors contracting with the Canadian government provide services in a variety of fields. Being able to capture this at a more granular level would be beneficial.</p>
+<p>Many of the largest vendors contracting with the Canadian government provide services in a variety of fields, <a href="#vendor-name-normalization">as described above</a>. Being able to capture this at a more granular level would be beneficial.</p>
 
 <p>Contract entries often include descriptions of work and, in some cases, object codes that could be used to automatically determine what industry a given contract falls within.</p>
 
@@ -394,6 +446,8 @@
 <li><a href="http://www.data-analysis-in-python.org/">Data Analysis in Python</a></li>
 <li><a href="https://r4ds.had.co.nz/">R for Data Science</a></li>
 </ul>
+
+<p>You can <a href="/download/">download the combined dataset in several formats</a> to perform your own analysis of the combined dataset. If you have questions about how this dataset was produced, or if you create interesting analyses of your own, please <a href="/about/#get-in-touch">get in touch</a>!</p>
 </main>
 </article>
 
@@ -406,7 +460,7 @@
 
   
   
-    <script src="/main.3fd9e.js"></script>
+    <script src="/main.45439.js"></script>
   
 </body>
 
