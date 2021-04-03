@@ -11,6 +11,8 @@
 
   
   
+    <link href="/main.afe9b.css" rel="stylesheet">
+  
 
   
 <script type="application/javascript">
@@ -68,64 +70,38 @@ if (!doNotTrack) {
   <main role="main" class="container">
    
 <article class="content">
-  <main>
-
-<h1 id="download-government-contract-spending-data">Download government contract spending data</h1>
-
+  <main><h1 id="download-government-contract-spending-data">Download government contract spending data</h1>
 <p>A great way to understand the insights and limitations of this data is to download and analyze it yourself. The combined dataset includes the full set of contracting data from both the Proactive Disclosure websites and Open Government datasets. You can learn more about these on the <a href="/methodology/">Methodology</a> page.</p>
-
 <p>The combined dataset exists in four different formats. Each of these can be downloaded as a ZIP-compressed CSV file. You can choose the one that works best for your particular use-case.</p>
-
 <h2 id="downloads">Downloads</h2>
-
 <h3 id="source-table">“Source” table</h3>
-
 <p>This table includes the raw data from both sources. It includes any duplicate or potentially erroneous entries (except any entries that could not be successfully imported into the database).</p>
-
 <ul>
 <li><a href="https://s3-us-west-2.amazonaws.com/goc-spending-export-20190519/public/source.zip"><strong>Download source.zip</strong></a> (ZIP&rsquo;d CSV file, 45.9 MB)</li>
 </ul>
-
 <h3 id="source-table-with-metadata">“Source” table, with metadata</h3>
-
 <p>This table includes the raw data above, with a range of additional metadata columns whose fields were generated from the raw data (cleaned and normalized vendor names, effective start and end years, etc.). It includes columns that flag duplicate or erroneous entries. <strong>This table is a good place to start for conducting your own analysis.</strong></p>
-
 <ul>
 <li><a href="https://s3-us-west-2.amazonaws.com/goc-spending-export-20190519/public/source_with_metadata.zip"><strong>Download source_with_metadata.zip</strong></a> (ZIP&rsquo;d CSV file, 64.4 MB)</li>
 </ul>
-
 <h3 id="clean-table">“Clean” table</h3>
-
 <p>This table includes the data from the “source” table, minus the duplicate and error-flagged rows. It includes the generated metadata described in the “source” table above.</p>
-
 <ul>
 <li><a href="https://s3-us-west-2.amazonaws.com/goc-spending-export-20190519/public/clean.zip"><strong>Download clean.zip</strong></a> (ZIP&rsquo;d CSV file, 29.0 MB)</li>
 </ul>
-
 <h3 id="by-year-table">“By year” table</h3>
-
 <p>This table is generated from the “clean” table, and includes separate entries for each effective year (based on the <a href="/methodology#normalizing-by-year">normalizing by year</a> method). Of the downloads listed, <strong>this table is the easiest way to do year-by-year analyses, based on the methodology used here</strong>.</p>
-
 <ul>
 <li><a href="https://s3-us-west-2.amazonaws.com/goc-spending-export-20190519/public/by_year.zip"><strong>Download by_year.zip</strong></a> (ZIP&rsquo;d CSV file, 23.9 MB)</li>
 </ul>
-
 <h2 id="original-source-data">Original source data</h2>
-
 <h3 id="proactive-disclosure-websites">Proactive Disclosure websites</h3>
-
 <p>You can download the scraped HTML excerpts, or the parsed JSON files <a href="/methodology/">generated from these excerpts</a> from the <a href="https://github.com/GoC-Spending/goc-spending-data">goc-spending-data archive repository</a> on GitHub.</p>
-
 <p>This repository includes data from <span class="variable">36</span> Proactive Disclosure websites, <span class="variable">8</span> of which are no longer available online.</p>
-
 <h3 id="open-government-dataset">Open Government dataset</h3>
-
 <p>The <a href="https://open.canada.ca/data/en/dataset/d8f85d91-7dec-4fd1-8055-483b77225d8b">Proactive Disclosure of Contracts dataset</a> can be downloaded from the Open Government website. It is updated on a regular basis as new departmental data is added, even though the “Record Modified” metadata indicates that it was last modified on <span class="variable">2018-03-28</span>.</p>
-
 <p>The version of the Open Government dataset used to generate the combined dataset tables above is from <span class="variable">2019-03-24</span>. The <a href="https://s3-us-west-2.amazonaws.com/goc-spending-export-20190519/public/2019-03-24-contracts.zip">archived point-in-time version can be downloaded here</a>.</p>
-
 <h2 id="share-your-feedback">Share your feedback!</h2>
-
 <p>If you have thoughts on the data downloads listed here, or if you create interesting analyses of your own, please <a href="/about/#get-in-touch">get in touch</a>!</p>
 </main>
 </article>
@@ -139,7 +115,7 @@ if (!doNotTrack) {
 
   
   
-    <script src="/main.15341.js"></script>
+    <script src="/main.afe9b.js"></script>
   
 </body>
 
